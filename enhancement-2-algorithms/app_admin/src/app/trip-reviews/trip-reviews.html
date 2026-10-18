@@ -1,0 +1,315 @@
+<div class="container mt-4 mb-5">
+
+  <div class="mb-3">
+    <a routerLink="/"
+       class="btn btn-secondary">
+      Back to Trips
+    </a>
+  </div>
+
+  <div *ngIf="trip">
+
+    <h2>
+      Reviews for {{ trip.name }}
+    </h2>
+
+    <p class="text-muted">
+      {{ trip.resort }}
+    </p>
+
+  </div>
+
+  <div *ngIf="message"
+       class="alert alert-success">
+    {{ message }}
+  </div>
+
+  <div *ngIf="errorMessage"
+       class="alert alert-danger">
+    {{ errorMessage }}
+  </div>
+
+  <div *ngIf="(isLoggedIn$ | async) === false"
+       class="alert alert-info">
+
+    You can read reviews below.
+
+    <a routerLink="/login">
+      Log in
+    </a>
+
+    to leave your own review.
+
+  </div>
+
+  <div *ngIf="
+      (isLoggedIn$ | async) &&
+      hasCurrentUserReview() &&
+      !editingReviewId
+    "
+       class="alert alert-info">
+
+    You have already reviewed this trip.
+    You can edit or delete your review below.
+
+  </div>
+
+  <div *ngIf="
+      (isLoggedIn$ | async) &&
+      (!hasCurrentUserReview() || editingReviewId)
+    "
+       class="review-form card mb-4">
+
+    <div class="card-body">
+
+      <h4 class="card-title">
+        {{ editingReviewId ? 'Edit Your Review' : 'Leave a Review' }}
+      </h4>
+
+      <form #reviewForm="ngForm"
+            (ngSubmit)="submitReview()">
+
+        <div class="row">
+
+          <div class="col-md-6 mb-3">
+
+            <label for="valueRating"
+                   class="form-label">
+              Value
+            </label>
+
+            <select id="valueRating"
+                    name="valueRating"
+                    class="form-select"
+                    [(ngModel)]="formReview.valueRating"
+                    required>
+
+              <option [ngValue]="1">1 - Poor</option>
+              <option [ngValue]="2">2 - Fair</option>
+              <option [ngValue]="3">3 - Good</option>
+              <option [ngValue]="4">4 - Very Good</option>
+              <option [ngValue]="5">5 - Excellent</option>
+
+            </select>
+
+          </div>
+
+          <div class="col-md-6 mb-3">
+
+            <label for="destinationRating"
+                   class="form-label">
+              Destination
+            </label>
+
+            <select id="destinationRating"
+                    name="destinationRating"
+                    class="form-select"
+                    [(ngModel)]="formReview.destinationRating"
+                    required>
+
+              <option [ngValue]="1">1 - Poor</option>
+              <option [ngValue]="2">2 - Fair</option>
+              <option [ngValue]="3">3 - Good</option>
+              <option [ngValue]="4">4 - Very Good</option>
+              <option [ngValue]="5">5 - Excellent</option>
+
+            </select>
+
+          </div>
+
+          <div class="col-md-6 mb-3">
+
+            <label for="qualityRating"
+                   class="form-label">
+              Overall Trip Quality
+            </label>
+
+            <select id="qualityRating"
+                    name="qualityRating"
+                    class="form-select"
+                    [(ngModel)]="formReview.qualityRating"
+                    required>
+
+              <option [ngValue]="1">1 - Poor</option>
+              <option [ngValue]="2">2 - Fair</option>
+              <option [ngValue]="3">3 - Good</option>
+              <option [ngValue]="4">4 - Very Good</option>
+              <option [ngValue]="5">5 - Excellent</option>
+
+            </select>
+
+          </div>
+
+          <div class="col-md-6 mb-3">
+
+            <label for="accommodationRating"
+                   class="form-label">
+              Accommodations
+            </label>
+
+            <select id="accommodationRating"
+                    name="accommodationRating"
+                    class="form-select"
+                    [(ngModel)]="formReview.accommodationRating"
+                    required>
+
+              <option [ngValue]="1">1 - Poor</option>
+              <option [ngValue]="2">2 - Fair</option>
+              <option [ngValue]="3">3 - Good</option>
+              <option [ngValue]="4">4 - Very Good</option>
+              <option [ngValue]="5">5 - Excellent</option>
+
+            </select>
+
+          </div>
+
+          <div class="col-md-6 mb-3">
+
+            <label for="activitiesRating"
+                   class="form-label">
+              Activities
+            </label>
+
+            <select id="activitiesRating"
+                    name="activitiesRating"
+                    class="form-select"
+                    [(ngModel)]="formReview.activitiesRating"
+                    required>
+
+              <option [ngValue]="1">1 - Poor</option>
+              <option [ngValue]="2">2 - Fair</option>
+              <option [ngValue]="3">3 - Good</option>
+              <option [ngValue]="4">4 - Very Good</option>
+              <option [ngValue]="5">5 - Excellent</option>
+
+            </select>
+
+          </div>
+
+        </div>
+
+        <div class="mb-3">
+
+          <label for="reviewText"
+                 class="form-label">
+            Written Review (Optional)
+          </label>
+
+          <textarea id="reviewText"
+                    name="reviewText"
+                    class="form-control"
+                    rows="5"
+                    maxlength="2000"
+                    [(ngModel)]="formReview.reviewText">
+          </textarea>
+
+        </div>
+
+        <button type="submit"
+                class="btn btn-primary me-2"
+                [disabled]="reviewForm.invalid">
+
+          {{ editingReviewId ? 'Update Review' : 'Submit Review' }}
+
+        </button>
+
+        <button *ngIf="editingReviewId"
+                type="button"
+                class="btn btn-secondary"
+                (click)="cancelEdit()">
+
+          Cancel
+
+        </button>
+
+      </form>
+
+    </div>
+
+  </div>
+
+  <hr>
+
+  <h3 class="mb-3">
+    Customer Reviews
+  </h3>
+
+  <div *ngIf="reviews.length === 0"
+       class="alert alert-secondary">
+
+    No reviews have been submitted for this trip yet.
+
+  </div>
+
+  <div *ngFor="let review of reviews"
+       class="card review-card mb-3">
+
+    <div class="card-body">
+
+      <div class="review-heading">
+
+        <h5 class="card-title">
+          {{ review.userName }}
+        </h5>
+
+        <small class="text-muted">
+          {{ review.createdAt | date:'mediumDate' }}
+        </small>
+
+      </div>
+
+      <div class="ratings mt-3 mb-3">
+
+        <div>
+          <strong>Value:</strong>
+          {{ review.valueRating }}/5
+        </div>
+
+        <div>
+          <strong>Destination:</strong>
+          {{ review.destinationRating }}/5
+        </div>
+
+        <div>
+          <strong>Overall Quality:</strong>
+          {{ review.qualityRating }}/5
+        </div>
+
+        <div>
+          <strong>Accommodations:</strong>
+          {{ review.accommodationRating }}/5
+        </div>
+
+        <div>
+          <strong>Activities:</strong>
+          {{ review.activitiesRating }}/5
+        </div>
+
+      </div>
+
+      <p *ngIf="review.reviewText"
+         class="card-text">
+        {{ review.reviewText }}
+      </p>
+
+      <div *ngIf="isOwnReview(review)">
+
+        <button type="button"
+                class="btn btn-info me-2"
+                (click)="editReview(review)">
+          Edit Review
+        </button>
+
+        <button type="button"
+                class="btn btn-danger"
+                (click)="deleteReview(review)">
+          Delete Review
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

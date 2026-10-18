@@ -1,0 +1,134 @@
+/*
+  ============================================================
+  Trip Rankings Page Styling
+  ============================================================
+
+  This file contains styles specific to the Milestone Three
+  rankings page.
+
+  The goal is to keep the page readable while clearly
+  separating ranking results, scoring information, and
+  algorithm details.
+  ============================================================
+*/
+
+
+/* ==========================================================
+   Page Header
+   ========================================================== */
+
+.ranking-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+
+/* ==========================================================
+   Ranking Summary
+   ========================================================== */
+
+.ranking-summary {
+  padding: 1rem;
+  border: 1px solid #dee2e6;
+  border-radius: 0.5rem;
+  background-color: #f8f9fa;
+}
+
+  .ranking-summary p {
+    margin-bottom: 0.4rem;
+  }
+
+
+/* ==========================================================
+   Top-Rated Trip Cards
+   ========================================================== */
+
+.ranking-card {
+  position: relative;
+  overflow: hidden;
+}
+
+  .ranking-card img {
+    height: 220px;
+    object-fit: cover;
+  }
+
+/*
+  Displays the ranking number prominently on each Top 3 card.
+*/
+.rank-number {
+  display: inline-block;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 0.75rem;
+}
+
+
+/* ==========================================================
+   Complete Ranking Table
+   ========================================================== */
+
+.table th {
+  vertical-align: middle;
+}
+
+.table td {
+  vertical-align: middle;
+}
+
+
+/* ==========================================================
+   Algorithm Information Sections
+   ========================================================== */
+
+.algorithm-section {
+  padding-top: 1rem;
+}
+
+  .algorithm-section h3 {
+    margin-bottom: 1rem;
+  }
+
+
+/*
+  Keeps the weighted-rating table from becoming excessively
+  wide on larger screens.
+*/
+.algorithm-table {
+  max-width: 650px;
+}
+
+
+/* ==========================================================
+   Cards Used for Algorithm Details
+   ========================================================== */
+
+.algorithm-section .card {
+  border: 1px solid #dee2e6;
+}
+
+.algorithm-section .card-body {
+  padding: 1.25rem;
+}
+
+
+/* ==========================================================
+   Responsive Layout
+   ==========================================================
+
+   On smaller screens, stack the page header so that the
+   navigation button does not crowd the title.
+   ========================================================== */
+
+@media (max-width: 768px) {
+  .ranking-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .ranking-card img {
+    height: auto;
+  }
+}

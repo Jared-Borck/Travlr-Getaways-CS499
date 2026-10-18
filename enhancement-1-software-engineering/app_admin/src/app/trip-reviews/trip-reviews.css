@@ -1,0 +1,34 @@
+.review-form {
+  max-width: 900px;
+}
+
+.review-card {
+  max-width: 900px;
+}
+
+.review-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.ratings {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.5rem 2rem;
+}
+
+textarea {
+  resize: vertical;
+}
+
+@media (max-width: 768px) {
+  .ratings {
+    grid-template-columns: 1fr;
+  }
+
+  .review-heading {
+    display: block;
+  }
+}
