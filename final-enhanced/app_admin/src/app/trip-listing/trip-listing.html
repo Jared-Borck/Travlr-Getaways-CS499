@@ -1,0 +1,15 @@
+<div class="row">
+  <div class="col-12">
+    <button *ngIf="isAdmin$ | async"
+            class="btn btn-primary"
+            (click)="addTrip()">
+      Add Trip
+    </button>
+  </div>
+</div>
+
+<div class="row">
+  <div *ngFor="let trip of trips" class="col-md-4">
+    <app-trip-card [trip]="trip"></app-trip-card>
+  </div>
+</div>

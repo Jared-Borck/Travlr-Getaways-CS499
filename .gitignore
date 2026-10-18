@@ -1,0 +1,17 @@
+node_modules/
+.vs/
+.angular/
+dist/
+build/
+coverage/
+
+.env
+.env.*
+!.env.example
+
+*.zip
+*.log
+*.pem
+*.key
+*.p12
+*.pfx
